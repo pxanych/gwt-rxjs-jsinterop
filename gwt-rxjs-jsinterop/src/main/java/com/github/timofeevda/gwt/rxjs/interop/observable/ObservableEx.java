@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2017 Denis Timofeev <timofeevda@gmail.com>
+ * Copyright (c) 2018 Denis Timofeev <timofeevda@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,6 +21,7 @@
  */
 package com.github.timofeevda.gwt.rxjs.interop.observable;
 
+import com.github.timofeevda.gwt.rxjs.interop.RxJS;
 import com.github.timofeevda.gwt.rxjs.interop.event.KeyboardEvent;
 import com.github.timofeevda.gwt.rxjs.interop.event.MouseEvent;
 import com.google.gwt.dom.client.Element;
@@ -33,14 +34,14 @@ import com.google.gwt.dom.client.Element;
 public class ObservableEx {
 
     public static Observable<MouseEvent> fromMouseEvent(Element element, String mouseEvent, boolean useCapture) {
-        return Observable.fromEvent(element, mouseEvent, useCapture);
+        return RxJS.fromEvent(element, mouseEvent, useCapture);
     }
 
     public static Observable<MouseEvent> fromMouseEvent(Element element, String mouseEvent) {
-        return Observable.fromEvent(element, mouseEvent);
+        return RxJS.fromEvent(element, mouseEvent);
     }
 
     public static Observable<KeyboardEvent> fromKeyboardEvent(Element element, String keyboardEvent) {
-        return Observable.fromEvent(element, keyboardEvent);
+        return RxJS.fromEvent(element, keyboardEvent);
     }
 }

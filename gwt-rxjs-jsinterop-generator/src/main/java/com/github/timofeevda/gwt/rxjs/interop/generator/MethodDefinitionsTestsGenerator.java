@@ -54,7 +54,7 @@ public class MethodDefinitionsTestsGenerator {
     private static final Map<String, Integer> METHOD_COUNTERS = new HashMap<>();
 
     public static void main(String... args) throws ClassNotFoundException, IOException {
-        Method[] methodDeclarations = Class.forName("com.github.timofeevda.gwt.rxjs.interop.observable.Observable")
+        Method[] methodDeclarations = Class.forName("com.github.timofeevda.gwt.rxjs.interop.RxJS")
                 .getDeclaredMethods();
 
         Set<String> importsSet = generateImportsSet(methodDeclarations);
@@ -95,8 +95,8 @@ public class MethodDefinitionsTestsGenerator {
                 .filter(m -> (m.getModifiers() & Modifier.STATIC) != Modifier.STATIC)
                 .flatMap(m -> Arrays.stream(m.getParameterTypes()))
                 .filter(type -> type.getPackage() != null)
-                .map(clazz -> clazz.getCanonicalName())
-                .collect(Collectors.toCollection(() -> new TreeSet<>()));
+                .map(Class::getCanonicalName)
+                .collect(Collectors.toCollection(TreeSet::new));
         return importsSet;
     }
 
@@ -115,7 +115,7 @@ public class MethodDefinitionsTestsGenerator {
 
     private static List<GeneratedMethodParameter> generateMethodParameters(Method methodDeclaration) {
         return Arrays.stream(methodDeclaration.getParameterTypes())
-                .map(parameterClass -> classToGeneratedMethodParameter(parameterClass))
+                .map(MethodDefinitionsTestsGenerator::classToGeneratedMethodParameter)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -129,7 +129,7 @@ public class MethodDefinitionsTestsGenerator {
         } else {
             if (p != null) {
                 if (parameterClass.equals(Object.class)) {
-                    // just retunr integer for simplicity
+                    // just return integer for simplicity
                     return Optional.of(new GeneratedMethodParameter("Integer", null));
                 } else {
                     return Optional.of(new GeneratedMethodParameter(parameterClass.getCanonicalName(), null));
